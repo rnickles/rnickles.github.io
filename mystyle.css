@@ -3,19 +3,19 @@ body {
   }
   
   h1 {
-    color: navy;
+    color:slateblue;
     margin-left: 20px;
     font-family: 'Courier New', Courier, monospace;
   }
 
   h2 {
-    color: navy;
+    color:slateblue;
     margin-left: 20px;
     font-family: 'Courier New', Courier, monospace;
   }
 
   h3 {
-    color: navy;
+    color:slateblue;
     margin-left: 40px;
     font-family: 'Courier New', Courier, monospace;
   }
