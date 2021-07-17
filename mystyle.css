@@ -1,0 +1,32 @@
+body {
+    background-color:rgb(12, 12, 17);
+  }
+  
+  h1 {
+    color: navy;
+    margin-left: 20px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  h2 {
+    color: navy;
+    margin-left: 20px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  h3 {
+    color: navy;
+    margin-left: 40px;
+    font-family: 'Courier New', Courier, monospace;
+  }
+
+  p {
+      color:darkgreen;
+      margin-left: 60px;
+      font-family: 'Courier New', Courier, monospace;
+  }
+
+  a {
+    color:darkgreen;
+    font-family: 'Courier New', Courier, monospace;
+  }
