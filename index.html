@@ -5,67 +5,72 @@ title: Home
 <h1>{{ "Hello World!" | downcase }}</h1>
 
 <script>
+    import { init_level } from "assets/js/levels/level1";
+    // This function is called once the window loads and is responsible for setting up the game.
+    function init() {
 
-    // init
+        // establish the renderer
+        let renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
 
-    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
-    camera.position.z = 1;
+        // setup the camera and position slightly up and far back
+        let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.x = 0;
+        camera.position.y = 200;
+        camera.position.z = 1600;
 
-    const scene = new THREE.Scene();
+        // setup the camera controls to accept input from a mouse or touch
+        THREE.MOUSE.PAN = 0; // set pan to the left click
+        THREE.MOUSE.ROTATE = 2;
+        // const controls = new TrackballControls(camera, renderer.domElement);
+        // controls.noRotate = true; // we don't want rotation
 
-    const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    const material = new THREE.MeshNormalMaterial();
+        // create a scene-graph data structure
+        let scene = new THREE.Scene();
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+        // create a Matter.js engine
+        let engine = Matter.Engine.create({
+            gravity: { y: -1, scale: 0.005 }
+        });
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setAnimationLoop(animation);
-    document.body.appendChild(renderer.domElement);
+        // initialize the level and retrieve a list of game objects
+        let _bodies = init_level(engine, scene);
 
-    // animation
+        // run the physics engine
+        Matter.Runner.run(engine);
 
-    function animation(time) {
+        // lighting
+        let dirLight1 = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight1.position.set(-30, 50, 40);
+        scene.add(dirLight1);
+        let dirLight2 = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight2.position.set(30, -50, -40);
+        scene.add(dirLight2);
 
-        mesh.rotation.x = time / 2000;
-        mesh.rotation.y = time / 1000;
+        //
+        // THE GAME LOOP
+        //
+        function render() {
 
-        renderer.render(scene, camera);
+            requestAnimationFrame(render);
 
+            // sychronize the rendered representation with the physical representation.
+            for (let j = 0; j < _bodies.length; j++) {
+                _bodies[j].render()
+            }
+
+            // update any changes to the view based on user input from either mouse or touch.
+            // controls.update();
+
+            // update the screen
+            renderer.render(scene, camera);
+        }
+
+        render();
     }
-</script>
-<script>
-    // module aliases
-    var Engine = Matter.Engine,
-        Render = Matter.Render,
-        Runner = Matter.Runner,
-        Bodies = Matter.Bodies,
-        Composite = Matter.Composite;
 
-    // create an engine
-    var engine = Engine.create();
-
-    // create a renderer
-    var render = Render.create({
-        element: document.body,
-        engine: engine
-    });
-
-    // create two boxes and a ground
-    var boxA = Bodies.rectangle(400, 200, 80, 80);
-    var boxB = Bodies.rectangle(450, 50, 80, 80);
-    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
-
-    // add all of the bodies to the world
-    Composite.add(engine.world, [boxA, boxB, ground]);
-
-    // run the renderer
-    Render.run(render);
-
-    // create runner
-    var runner = Runner.create();
-
-    // run the engine
-    Runner.run(runner, engine);
+    // schedule to call init() once the page loads.
+    window.addEventListener('load', init);
 </script>
