@@ -4,17 +4,20 @@
     <meta charset="utf-8">
     <title>Home</title>
     <link rel="stylesheet" href="/assets/css/styles.css">
-    <link type="application/atom+xml" rel="alternate" href="/feed.xml" />
+    <script src="matter.min.js"></script>
+    <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" />
     <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Home</title>
 <meta name="generator" content="Jekyll v4.3.1" />
 <meta property="og:title" content="Home" />
 <meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Home" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","headline":"Home","url":"/"}</script>
+{"@context":"https://schema.org","@type":"WebSite","headline":"Home","url":"http://localhost:4000/"}</script>
 <!-- End Jekyll SEO tag -->
 
   </head>
@@ -27,5 +30,41 @@
     
   </nav>
     <h1>hello world!</h1>
+
+<script>
+
+    // module aliases
+    var Engine = Matter.Engine,
+        Render = Matter.Render,
+        Runner = Matter.Runner,
+        Bodies = Matter.Bodies,
+        Composite = Matter.Composite;
+
+    // create an engine
+    var engine = Engine.create();
+
+    // create a renderer
+    var render = Render.create({
+        element: document.body,
+        engine: engine
+    });
+
+    // create two boxes and a ground
+    var boxA = Bodies.rectangle(400, 200, 80, 80);
+    var boxB = Bodies.rectangle(450, 50, 80, 80);
+    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true });
+
+    // add all of the bodies to the world
+    Composite.add(engine.world, [boxA, boxB, ground]);
+
+    // run the renderer
+    Render.run(render);
+
+    // create runner
+    var runner = Runner.create();
+
+    // run the engine
+    Runner.run(runner, engine);
+</script>
   </body>
 </html>
