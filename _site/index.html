@@ -106,7 +106,8 @@
             });
             // add it to the physics world
             Matter.Composite.add(engine.world, bod);
-            Matter.Body.applyForce(bod, bod.position, Matter.Vector.create(1, 0))
+            //give the marble a starting push
+            Matter.Body.applyForce(bod, bod.position, Matter.Vector.create(-1, 0))
 
             // THREE stuff
             // create a THREE geometry
@@ -130,9 +131,9 @@
             this.#mesh.position.set(pos.x, pos.y, 0)
         }
     }
-    function init_level(engine, scene) {
+    function init_level(engine, scene, group) {
         // create a group
-        let group = new THREE.Object3D();
+       
         // add the group to the scene
         scene.add(group);
 
@@ -154,7 +155,7 @@
             _bodies.push(_w)
         }
 
-        // create a marble that drops onto the ground
+        // create a marble that drops
         let _m = new Marble(0, window.innerHeight*2, engine, group);
         // add it to _bodies
         _bodies.push(_m);
@@ -190,8 +191,10 @@
             gravity: { y: -1, scale: 0.005 }
         });
 
+        let group = new THREE.Object3D();
+        
         // initialize the level and retrieve a list of game objects
-        let _bodies = init_level(engine, scene);
+        let _bodies = init_level(engine, scene, group);
 
         // run the physics engine
         Matter.Runner.run(engine);
@@ -218,6 +221,10 @@
 
             // update any changes to the view based on user input from either mouse or touch.
             // controls.update();
+            // create a marble that drops
+            let _m = new Marble(0, window.innerHeight*2, engine, group);
+            // add it to _bodies
+            _bodies.push(_m);
 
             // update the screen
             renderer.render(scene, camera);
