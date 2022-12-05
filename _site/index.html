@@ -141,9 +141,14 @@
 
         // Place some random platforms
         for (let i = 0; i < 200; i++) {
-            let x = getRndInteger(-window.innerWidth * .8 * 2, window.innerWidth * .8 * 2)
-            let y = getRndInteger(-window.innerHeight * .8 * 2, window.innerHeight * .8 * 2)
-            let w = getRndInteger(100, 500)
+            let x = getRndInteger(-window.innerWidth * .8*2, window.innerWidth * .8*2)
+            let y = getRndInteger(-window.innerHeight * .8*2, window.innerHeight * .8*2)
+            if (window.innerHeight > window.innerWidth) {
+                let temp = x
+                x = y
+                y = temp
+            }
+            let w = getRndInteger(100, 400)
             let h = 80
             let _w = new Wall(x, y, w, h, engine, group)
             _bodies.push(_w)
