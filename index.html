@@ -78,7 +78,8 @@ title: Home
             });
             // add it to the physics world
             Matter.Composite.add(engine.world, bod);
-            Matter.Body.applyForce(bod, bod.position, Matter.Vector.create(1, 0))
+            //give the marble a starting push
+            Matter.Body.applyForce(bod, bod.position, Matter.Vector.create(-1, 0))
 
             // THREE stuff
             // create a THREE geometry
