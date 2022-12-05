@@ -68,7 +68,7 @@ title: Home
     class Marble {
         #bod;
         #mesh;
-        constructor(x, y, engine, group) {
+        constructor(x, y, engine, group, color=0x808080 )  {
             // matter stuff
             // create a matter body
             let bod = Matter.Bodies.circle(x, y, DOT_SIZE * 0.5, {
@@ -85,7 +85,7 @@ title: Home
             // create a THREE geometry
             let geometry = new THREE.SphereGeometry(30, 16, 16);
             // create a THREE material
-            let material = new THREE.MeshPhongMaterial({ color: 0x808080 });
+            let material = new THREE.MeshPhongMaterial({ color: color});
             // create a THREE mesh
             let mesh = new THREE.Mesh(geometry, material);
             // add the mesh to the scengraph group
@@ -127,8 +127,8 @@ title: Home
             _bodies.push(_w)
         }
 
-        // create a marble that drops
-        let _m = new Marble(0, window.innerHeight*2, engine, group);
+        // create a specialmarble that drops
+        let _m = new Marble(0, window.innerHeight*2, engine, group, color=0xff00ff);
         // add it to _bodies
         _bodies.push(_m);
 
@@ -164,7 +164,7 @@ title: Home
         });
 
         let group = new THREE.Object3D();
-        
+
         // initialize the level and retrieve a list of game objects
         let _bodies = init_level(engine, scene, group);
 
@@ -182,6 +182,7 @@ title: Home
         //
         // THE GAME LOOP
         //
+        let t1 = Date.now()
         function render() {
 
             requestAnimationFrame(render);
@@ -191,12 +192,15 @@ title: Home
                 _bodies[j].render()
             }
 
-            // update any changes to the view based on user input from either mouse or touch.
-            // controls.update();
-            // create a marble that drops
-            let _m = new Marble(0, window.innerHeight*2, engine, group);
-            // add it to _bodies
-            _bodies.push(_m);
+            t2 = Date.now()
+            if (t2 - t1 > 5000 && t2 - t1 < 10000)  {
+                // update any changes to the view based on user input from either mouse or touch.
+                // controls.update();
+                // create a marble that drops
+                let _m = new Marble(0, window.innerHeight*2, engine, group);
+                // add it to _bodies
+                _bodies.push(_m);
+            }
 
             // update the screen
             renderer.render(scene, camera);
