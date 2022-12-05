@@ -2,5 +2,3 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
-  - jekyll-remote-theme
-remote-theme: pages-themes/minimal@v0.2.0
