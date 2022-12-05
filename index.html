@@ -4,13 +4,20 @@ title: Home
 ---
 <h1>rnickles.github.io</h1>
 <h2>thanks for checking out the website!</h2>
+
 <script>
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    }
     class Wall {
         #bod
         constructor(x, y, width, height, engine, group) {
             // matter stuff
             // create a matter body
-            let bod = Matter.Bodies.rectangle(x, y, width, height, { isStatic: true });
+            let bod = Matter.Bodies.rectangle(x, y, width, height, {
+                isStatic: true,
+                restitution: 1,
+            });
             // add it to the physics world
             Matter.Composite.add(engine.world, bod)
 
@@ -66,11 +73,12 @@ title: Home
             // create a matter body
             let bod = Matter.Bodies.circle(x, y, DOT_SIZE * 0.5, {
                 friction: 0.00001,
-                restitution: 0.5,
-                density: 0.1
+                restitution: 1,
+                density: 0.1,
             });
             // add it to the physics world
             Matter.Composite.add(engine.world, bod);
+            Matter.Body.applyForce(bod, bod.position, Matter.Vector.create(1, 0))
 
             // THREE stuff
             // create a THREE geometry
@@ -85,6 +93,7 @@ title: Home
             // set instance variables
             this.#bod = bod;
             this.#mesh = mesh;
+
         }
 
         render() {
@@ -102,23 +111,20 @@ title: Home
         // the list of bodies in the level to be returned
         let _bodies = [];
 
-        // create a wall that belongs to the group
-        let _w = new Wall(0, 610, 1000, 100, engine, group);
-        // add it to _bodies
-        _bodies.push(_w);
-
-        // create a wall that belongs to the group
-        let _w2 = new Wall(0, -600, 1000, 100, engine, group);
-        // add it to _bodies
-        _bodies.push(_w2);
+        // Place some random platforms
+        for (let i = 0; i < 200; i++) {
+            let x = getRndInteger(-window.innerWidth * .8 * 2, window.innerWidth * .8 * 2)
+            let y = getRndInteger(-window.innerHeight * .8 * 2, window.innerHeight * .8 * 2)
+            let w = getRndInteger(100, 500)
+            let h = 80
+            let _w = new Wall(x, y, w, h, engine, group)
+            _bodies.push(_w)
+        }
 
         // create a marble that drops onto the ground
-        let _m = new Marble(0, 600, engine, group);
+        let _m = new Marble(0, window.innerHeight*2, engine, group);
         // add it to _bodies
         _bodies.push(_m);
-
-        let _g = new Goal(0, 0, engine, group, _m);
-        _bodies.push(_w);
 
         return _bodies
     }
@@ -127,15 +133,15 @@ title: Home
 
         // establish the renderer
         let renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.setSize(window.innerWidth/2, window.innerHeight/2);
+        renderer.setSize(window.innerWidth * .8, window.innerHeight * .8);
         renderer.setPixelRatio(window.devicePixelRatio);
         document.body.appendChild(renderer.domElement);
 
         // setup the camera and position slightly up and far back
         let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.x = 0;
-        camera.position.y = 200;
-        camera.position.z = 1600;
+        camera.position.x = -500;
+        camera.position.y = 0;
+        camera.position.z = 6000;
 
         // setup the camera controls to accept input from a mouse or touch
         THREE.MOUSE.PAN = 0; // set pan to the left click
