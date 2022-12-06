@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>falling marbles | rnickles.github.io</title>
+<meta name="generator" content="Jekyll v4.3.1" />
+<meta property="og:title" content="falling marbles" />
+<meta name="author" content="Robby" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="thanks for visting this corner of the internet, happy wandering" />
+<meta property="og:description" content="thanks for visting this corner of the internet, happy wandering" />
+<link rel="canonical" href="http://localhost:4000/falling_marbles/" />
+<meta property="og:url" content="http://localhost:4000/falling_marbles/" />
+<meta property="og:site_name" content="rnickles.github.io" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="falling marbles" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Robby"},"description":"thanks for visting this corner of the internet, happy wandering","headline":"falling marbles","url":"http://localhost:4000/falling_marbles/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="rnickles.github.io" />
+<script src="/assets/js/matter.min.js"></script>
+<script src="/assets/js/three.min.js"></script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">rnickles.github.io</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a><a class="page-link" href="/falling_marbles/">falling marbles</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">falling marbles</h1>
+  </header>
+
+  <div class="post-content">
+    watch them go
+<div style="text-align:center;">
+    <script>
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+        class Wall {
+            #bod
+            constructor(x, y, width, height, engine, group) {
+                // matter stuff
+                // create a matter body
+                let bod = Matter.Bodies.rectangle(x, y, width, height, {
+                    isStatic: true,
+                    restitution: 1,
+                });
+                // add it to the physics world
+                Matter.Composite.add(engine.world, bod)
+
+                // THREE stuff
+                // create a THREE geometry
+                let geometry = new THREE.BoxGeometry(width, height - 30, 300); //hack to prevent overlap
+                // create a THREE material
+                let material = new THREE.MeshPhongMaterial({ color: 0x276a4b });
+                // create a THREE mesh
+                let mesh = new THREE.Mesh(geometry, material);
+                // add the mesh to the scengraph group
+                group.add(mesh)
+
+                // align the mesh to the body
+                mesh.position.set(x, y);
+
+                // keep an instance variable
+                this.#bod = bod;
+            }
+
+            // getter to access read-only private instance variable
+            get bod() {
+                return this.#bod;
+            }
+
+            render() {
+                // update the position of the render to the physics engine
+                // since it is a static body this function does nothing
+            }
+        }
+
+        class Goal extends Wall {
+            #detector
+            constructor(x, y, engine, group, marble) {
+                super(x, y, 200, 100, engine, group);
+                this.#detector = Matter.Detector.create({ bodies: [this.bod, marble] });
+            }
+
+            render() {
+                if (Matter.Detector.collisions(this.#detector).length !== 0) {
+                    console.log("winner")
+                }
+            }
+
+        }
+        const DOT_SIZE = 30;
+
+        class Marble {
+            #bod;
+            #mesh;
+            constructor(x, y, engine, group, color = 0x808080) {
+                // matter stuff
+                // create a matter body
+                let bod = Matter.Bodies.circle(x, y, DOT_SIZE * 0.5, {
+                    friction: 0.00001,
+                    restitution: 1,
+                    density: 0.1,
+                });
+                // add it to the physics world
+                Matter.Composite.add(engine.world, bod);
+                //give the marble a starting push
+                Matter.Body.applyForce(bod, bod.position, Matter.Vector.create(-1, 0))
+
+                // THREE stuff
+                // create a THREE geometry
+                let geometry = new THREE.SphereGeometry(30, 16, 16);
+                // create a THREE material
+                let material = new THREE.MeshPhongMaterial({ color: color });
+                // create a THREE mesh
+                let mesh = new THREE.Mesh(geometry, material);
+                // add the mesh to the scengraph group
+                group.add(mesh);
+
+                // set instance variables
+                this.#bod = bod;
+                this.#mesh = mesh;
+
+            }
+
+            render() {
+                // update the position of the render to the physics engine
+                let pos = this.#bod.position;
+                this.#mesh.position.set(pos.x, pos.y, 0)
+            }
+        }
+        function init_level(engine, scene, group) {
+            // create a group
+
+            // add the group to the scene
+            scene.add(group);
+
+            // the list of bodies in the level to be returned
+            let _bodies = [];
+
+            // Place some random platforms
+            for (let i = 0; i < 200; i++) {
+                let x = getRndInteger(-window.innerWidth * .8 * 2, window.innerWidth * .8 * 2)
+                let y = getRndInteger(-window.innerHeight * .8 * 2, window.innerHeight * .8 * 2)
+                if (window.innerHeight > window.innerWidth) {
+                    let temp = x
+                    x = y
+                    y = temp
+                }
+                let w = getRndInteger(100, 400)
+                let h = 80
+                let _w = new Wall(x, y, w, h, engine, group)
+                _bodies.push(_w)
+            }
+
+            // create a specialmarble that drops
+            let _m = new Marble(0, window.innerHeight * 2, engine, group, color = 0xff00ff);
+            // add it to _bodies
+            _bodies.push(_m);
+
+            return _bodies
+        }
+
+        function init() {
+
+            // establish the renderer
+            let renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth * .5, window.innerHeight * .5);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            document.body.appendChild(renderer.domElement);
+            renderer.domElement.style.marginLeft = 'auto'
+            renderer.domElement.style.marginRight = 'auto'
+
+            // setup the camera and position slightly up and far back
+            let camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.x = -500;
+            camera.position.y = 0;
+            camera.position.z = 6000;
+
+            // setup the camera controls to accept input from a mouse or touch
+            THREE.MOUSE.PAN = 0; // set pan to the left click
+            THREE.MOUSE.ROTATE = 2;
+            // const controls = new TrackballControls(camera, renderer.domElement);
+            // controls.noRotate = true; // we don't want rotation
+
+            // create a scene-graph data structure
+            let scene = new THREE.Scene();
+
+            // create a Matter.js engine
+            let engine = Matter.Engine.create({
+                gravity: { y: -1, scale: 0.005 }
+            });
+
+            let group = new THREE.Object3D();
+
+            // initialize the level and retrieve a list of game objects
+            let _bodies = init_level(engine, scene, group);
+
+            // run the physics engine
+            Matter.Runner.run(engine);
+
+            // lighting
+            let dirLight1 = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight1.position.set(-30, 50, 40);
+            scene.add(dirLight1);
+            let dirLight2 = new THREE.DirectionalLight(0xffffff, 1);
+            dirLight2.position.set(30, -50, -40);
+            scene.add(dirLight2);
+
+            //
+            // THE GAME LOOP
+            //
+            let t1 = Date.now()
+            function render() {
+
+                requestAnimationFrame(render);
+
+                // sychronize the rendered representation with the physical representation.
+                for (let j = 0; j < _bodies.length; j++) {
+                    _bodies[j].render()
+                }
+
+                t2 = Date.now()
+                if (t2 - t1 > 5000 && t2 - t1 < 10000) {
+                    // update any changes to the view based on user input from either mouse or touch.
+                    // controls.update();
+                    // create a marble that drops
+                    let _m = new Marble(0, window.innerHeight * 2, engine, group);
+                    // add it to _bodies
+                    _bodies.push(_m);
+                }
+
+                // update the screen
+                renderer.render(scene, camera);
+            }
+
+            render();
+        }
+        // schedule to call init() once the page loads.
+        window.addEventListener('load', init);
+    </script>
+</div>
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <!-- <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p> -->
+        <ul class="contact-list">
+          <li class="p-name">Robby</li>
+          <li><a class="u-email" href="mailto:rnickles7@gmail.com">rnickles7@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>thanks for visting this corner of the internet, happy wandering
+</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
