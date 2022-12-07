@@ -32,8 +32,8 @@ October 2022 - PRESENT
 
 HIGHLIGHTED PROJECTS
 ====================
-[This website!](https://rnickles.github.io)
----------------------------------------------------------------
+## [This website!](https://rnickles.github.io)
+
 Personal Project
 
 * Jekyll, HTML, markdown, bundler...
