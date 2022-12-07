@@ -38,7 +38,7 @@ Personal Project
 
 * Jekyll, HTML, markdown, bundler...
 * A website that serves as a modern business card.  
-* The project is hosted at https://github.com/rnickles/rnickles.github.io
+* The source code for the project can be found [here](https://github.com/rnickles/rnickles.github.io).
 
 [An end-to-end encrypted file sharing system](https://www.google.com/url?q=https://su21.cs161.org/proj2/&sa=D&source=editors&ust=1670373176546642&usg=AOvVaw30DxVuD03EKd4v5P_AIZNf)
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
