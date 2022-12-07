@@ -124,7 +124,7 @@ generated at random positions, so each page load results in a unique animation.
                     x = y
                     y = temp
                 }
-                let w = getRndInteger(100, 400)
+                let w = window.innerWidth*.08//getRndInteger(100, 400)
                 let h = 80
                 let _w = new Wall(x, y, w, h, engine, group)
                 _bodies.push(_w)
