@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-12-06T16:34:36-08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">rnickles.github.io</title><subtitle>thanks for visting this corner of the internet, happy wandering
+</subtitle><author><name>Robby</name><email>rnickles7@gmail.com</email></author><entry><title type="html">Qt Resource Management</title><link href="http://localhost:4000/2022/12/06/Qt-resource-management.html" rel="alternate" type="text/html" title="Qt Resource Management" /><published>2022-12-06T00:00:00-08:00</published><updated>2022-12-06T00:00:00-08:00</updated><id>http://localhost:4000/2022/12/06/Qt-resource-management</id><content type="html" xml:base="http://localhost:4000/2022/12/06/Qt-resource-management.html"><![CDATA[<h2 id="overview">Overview</h2>
+
+<p>In <code class="language-plaintext highlighter-rouge">Qt</code>, the resource system makes the use of runtime files platform-independent. It does this in at least two ways:</p>
+
+<p>1) Avoiding the use of user-specific path names (e.g. /home/robby/Documents)</p>
+
+<p>2) Avoiding filesystem-specific path conventions (e.g. Windows C:\Documents\ vs Linux /usr/bin/ls)</p>
+
+<p>Resources are local files that are brought in at runtime. Examples are <code class="language-plaintext highlighter-rouge">qml</code> files, media files, and meshes among other things. <code class="language-plaintext highlighter-rouge">C++</code> source and header files are not considered resources as they are compiled.</p>
+
+<h2 id="how-to-use">How to use</h2>
+
+<p>The project’s <code class="language-plaintext highlighter-rouge">.pro</code> file points the build system at a <code class="language-plaintext highlighter-rouge">qrc</code> (<code class="language-plaintext highlighter-rouge">Qt</code> resource collection) file with something like this:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># within the .pro file, point the build system at the</span>
+<span class="c"># .qrc file via the RESOURCES variable</span>
+RESOURCES +<span class="o">=</span> resources.qrc
+</code></pre></div></div>
+
+<p>A <code class="language-plaintext highlighter-rouge">qrc</code> file is <code class="language-plaintext highlighter-rouge">XML</code>. It specifies <code class="language-plaintext highlighter-rouge">main.qml</code> as well as other files like media. A <code class="language-plaintext highlighter-rouge">qrc</code> file might look something like this:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;RCC&gt;</span>
+    <span class="nt">&lt;qresource</span> <span class="na">prefix=</span><span class="s">"/"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;file&gt;</span>main.qml<span class="nt">&lt;/file&gt;</span>
+        <span class="nt">&lt;file&gt;</span>images/denmark.jpg<span class="nt">&lt;/file&gt;</span>
+        <span class="nt">&lt;file&gt;</span>images/finland.jpg<span class="nt">&lt;/file&gt;</span>
+        <span class="nt">&lt;file&gt;</span>images/iceland.jpg<span class="nt">&lt;/file&gt;</span>
+        <span class="nt">&lt;file&gt;</span>images/norway.jpg<span class="nt">&lt;/file&gt;</span>
+        <span class="nt">&lt;file&gt;</span>images/sweden.jpg<span class="nt">&lt;/file&gt;</span>
+    <span class="nt">&lt;/qresource&gt;</span>
+<span class="nt">&lt;/RCC&gt;</span>
+</code></pre></div></div>
+
+<p>This will then make resources available elsewhere in the code. For example <code class="language-plaintext highlighter-rouge">main.cpp</code> might look like this:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;QGuiApplication&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;QQuickView&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="n">QGuiApplication</span> <span class="n">app</span><span class="p">(</span> <span class="n">argc</span><span class="p">,</span> <span class="n">argv</span> <span class="p">);</span>
+    <span class="n">QQuickView</span> <span class="n">view</span><span class="p">;</span>
+
+		<span class="c1">// Here we can access main.qml with this syntax:</span>
+    <span class="n">view</span><span class="p">.</span><span class="n">setSource</span><span class="p">(</span><span class="n">QUrl</span><span class="p">(</span><span class="s">"qrc:main.qml"</span><span class="p">));</span>
+    <span class="n">view</span><span class="p">.</span><span class="n">show</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="n">app</span><span class="p">.</span><span class="n">exec</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>And elsewhere (in another source file):</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MyModel</span><span class="o">::</span><span class="n">MyModel</span><span class="p">(</span><span class="n">QObject</span> <span class="o">*</span><span class="n">parent</span><span class="p">)</span> <span class="o">:</span>
+    <span class="n">QAbstractListModel</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="c1">// and here we can access them too</span>
+    <span class="n">m_data</span>
+        <span class="o">&lt;&lt;</span> <span class="n">Data</span><span class="p">(</span><span class="s">"Denmark"</span><span class="p">,</span> <span class="s">"qrc:images/denmark.jpg"</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">)</span>
+        <span class="o">&lt;&lt;</span> <span class="n">Data</span><span class="p">(</span><span class="s">"Sweden"</span><span class="p">,</span> <span class="s">"qrc:images/sweden.jpg"</span><span class="p">,</span> <span class="mf">9.6</span><span class="p">)</span>
+        <span class="o">&lt;&lt;</span> <span class="n">Data</span><span class="p">(</span><span class="s">"Iceland"</span><span class="p">,</span> <span class="s">"qrc:images/iceland.jpg"</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+        <span class="o">&lt;&lt;</span> <span class="n">Data</span><span class="p">(</span><span class="s">"Norway"</span><span class="p">,</span> <span class="s">"qrc:images/norway.jpg"</span><span class="p">,</span> <span class="mf">5.1</span><span class="p">)</span>
+        <span class="o">&lt;&lt;</span> <span class="n">Data</span><span class="p">(</span><span class="s">"Finland"</span><span class="p">,</span> <span class="s">"qrc:images/finland.jpg"</span><span class="p">,</span> <span class="mf">5.4</span><span class="p">);</span>
+
+    <span class="n">QTimer</span> <span class="o">*</span><span class="n">growthTimer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">QTimer</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="n">connect</span><span class="p">(</span><span class="n">growthTimer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">QTimer</span><span class="o">::</span><span class="n">timeout</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">MyModel</span><span class="o">::</span><span class="n">growPopulation</span><span class="p">);</span>
+    <span class="n">growthTimer</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="summary">Summary</h2>
+
+<p>The <code class="language-plaintext highlighter-rouge">Qt</code> resource systems allows filesystem-independent installations of projects. The steps involved are</p>
+
+<p>1) tell the build system about the <code class="language-plaintext highlighter-rouge">qrc</code> file in the .pro file</p>
+
+<p>2) specify resources in the <code class="language-plaintext highlighter-rouge">qrc</code> file and</p>
+
+<p>3) access the resources in the code via the syntax <code class="language-plaintext highlighter-rouge">“qrc:&lt;resource&gt;”</code></p>]]></content><author><name>Robby</name><email>rnickles7@gmail.com</email></author><summary type="html"><![CDATA[Overview]]></summary></entry></feed>
