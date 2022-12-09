@@ -1,7 +1,9 @@
 ---
 layout: post
 ---
-Now that AI is available to the [masses](https://openai.com/api/), I want to see how `OpenAI`’s text models process news. The idea is to see if AI can read the news for me. To accomplish this, I wrote a python program that gathers the current top news and then has `OpenAI`’s `text-davinci-003` model summarize it. The program retrieves around 30 articles and has the AI summarize each one. Then it puts those summaries together and has the AI summarize this into a "super summary."  
+Now that AI is available to the [masses](https://openai.com/api/), I want to see how `OpenAI`’s text models process news. 
+
+The idea is to see if AI can read the news for me. To accomplish this, I wrote a python program that gathers the current top news and then has `OpenAI`’s `text-davinci-003` model summarize it. The program retrieves around 30 articles and has the AI summarize each one. Then it puts those summaries together and has the AI summarize this into a "super summary."  
 
 Here’s today’s result using the prompt “summarize for a college student”:
 
