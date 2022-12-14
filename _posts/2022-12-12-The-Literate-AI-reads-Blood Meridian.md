@@ -1,7 +1,9 @@
 ---
 layout: post
 ---
+by `OpenAI`'s `text-davinci-003`
 
+### Prompt: "Write a literary blog post discussing Cormac McCarthy's work \"Blood Meridian\" with reference to other classic works of literature. Discuss what literary techniques McCarthy employs."
 
 Cormac McCarthy's Blood Meridian is a classic example of the power of literature to explore and expose dark truths. The novel follows an unnamed teenager as he travels across Texas in the mid-1800s, encountering death and destruction at every turn. As he journeys through this violent landscape, he meets various characters who represent different aspects of American life during this period. 
 

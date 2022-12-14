@@ -1,7 +1,9 @@
 ---
 layout: post
 ---
+by `OpenAI`'s `text-davinci-003`
 
+### Prompt: "Write a literary blog post discussing Herman Melville's work \"Moby-Dick\" with reference to other classic works of literature. Discuss what literary techniques Melville employs."
 
 Herman Melville’s classic novel Moby-Dick is a sweeping saga of the high seas, populated by memorable characters and full of exciting adventure. Yet beneath its surface lies an intricate exploration into man's relationship with nature that has made it one of literature's greatest works. From its evocative language to the way it parallels other great literary works such as Shakespeare’s The Tempest and Milton’s Paradise Lost, Moby-Dick is a prime example of Herman Melville’s mastery over his craft. 
 
