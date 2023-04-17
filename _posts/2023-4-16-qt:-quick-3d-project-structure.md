@@ -4,6 +4,8 @@ layout: post
 # Overview
 When using 3d models, the number of assets can increase quickly. In order to keep things organized, I discuss an example project structure for using 3d models in Qt.
 
+The code is available here: https://github.com/rnickles/rigged_animated_3d_model_tutorial
+
 
 ## Setup the project
 

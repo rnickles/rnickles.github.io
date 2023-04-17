@@ -6,6 +6,9 @@ This is an example workflow for bringing in a 3d model from external software.
 - First an asset is acquired from Mixamo, 
 - Second the asset is conditioned by `balsam` tool
 - Third the asset is added to the project via its `qrc` file.
+
+The code is available here: https://github.com/rnickles/rigged_animated_3d_model_tutorial
+
 ## Acquire a 3D model on Mixamo
 
 Adobe’s Mixamo offers a large, free library of pre-made 3D characters, animations, and motions that can be customized and downloaded for use in games, films, and other 3D projects. 

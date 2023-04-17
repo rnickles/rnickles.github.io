@@ -3,6 +3,9 @@ layout: post
 ---
 ## Put the model in the code!
 
+The code is available here: https://github.com/rnickles/rigged_animated_3d_model_tutorial
+
+
 First, we will need the base (2d)  module and the 3d module:
 
 ```xml
