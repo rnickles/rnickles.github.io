@@ -7,7 +7,7 @@ This is an example workflow for bringing in a 3d model from external software.
 - Second the asset is conditioned by `balsam` tool
 - Third the asset is added to the project via its `qrc` file.
 
-The code is available here: https://github.com/rnickles/rigged_animated_3d_model_tutorial
+The code is available [here]( https://github.com/rnickles/rigged_animated_3d_model_tutorial)
 
 ## Acquire a 3D model on Mixamo
 
