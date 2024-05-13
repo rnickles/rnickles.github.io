@@ -14,7 +14,8 @@ var engine = Matter.Engine.create();
 // create a renderer
 var render = Matter.Render.create({
     element: document.body,
-    engine: engine
+    engine: engine,
+    options: {wireframes: false}
 });
 
 init_level1(Matter, engine);
@@ -22,10 +23,11 @@ init_level1(Matter, engine);
 // run the renderer
 Matter.Render.run(render);
 
-// create runner
-var runner = Matter.Runner.create();
+function update() {
+    Matter.Engine.update(engine, 1000 / 60 );
+    requestAnimationFrame(update);
+}
 
 // run the engine
-Matter.Runner.run(runner, engine);
-
+requestAnimationFrame(update);
 </script>
