@@ -1,4 +1,4 @@
-export function init_level1(module, engine) {
+export function init_level1(module, engine, game_state) {
 
     // create two boxes and a ground
     var boxA = module.Bodies.rectangle(400, 200, 80, 80);
