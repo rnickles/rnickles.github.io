@@ -1,6 +1,7 @@
 const DOT_SIZE = 30;
 
 export class Ball {
+    #bod
     constructor(x, y, engine, module) {
         // matter stuff
         // create a matter body
@@ -11,5 +12,9 @@ export class Ball {
         });
         // add it to the physics world
         module.Composite.add(engine.world, bod);
+        this.#bod = bod;
+    }
+    get bod() {
+        return this.#bod;
     }
 }

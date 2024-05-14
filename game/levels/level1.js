@@ -1,5 +1,5 @@
 import { Ball } from "../objects/ball.js"
-import { Ground } from "../objects/ground.js"
+import { Platform, Goal } from "../objects/platform.js"
 
 export function init_level1(module, engine, game_state) {
 
@@ -11,6 +11,11 @@ export function init_level1(module, engine, game_state) {
     // add all of the bodies to the world
     module.Composite.add(engine.world, [boxA, boxB]);
 
-    new Ground(400, 610, 810, 60, engine, module);
-    new Ball(450, 50, engine, module);
+    new Platform(400, 610, 810, 60, engine, module); //ground
+    let ball = new Ball(450, 50, engine, module);
+    let goal = new Goal(400, 400, engine, module, ball);
+
+    let _bodies = [];
+    _bodies.push(goal);
+    return _bodies;
 }

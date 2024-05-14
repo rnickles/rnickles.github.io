@@ -22,12 +22,16 @@ var render = Matter.Render.create({
     options: {wireframes: false}
 });
 
-init_level1(Matter, engine, game_state);
+let bodies_to_check = init_level1(Matter, engine, game_state);
 
 // run the renderer
 Matter.Render.run(render);
 
 function update() {
+    for (let j = 0; j < bodies_to_check.length; j++) {
+      bodies_to_check[j].update()
+    }
+
     Matter.Engine.update(engine, 1000 / 60 );
     requestAnimationFrame(update);
 }
