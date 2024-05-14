@@ -1,3 +1,5 @@
+import { Ball } from "../objects/ball.js"
+
 export function init_level1(module, engine, game_state) {
 
     // create two boxes and a ground
@@ -7,4 +9,6 @@ export function init_level1(module, engine, game_state) {
 
     // add all of the bodies to the world
     module.Composite.add(engine.world, [boxA, boxB, ground]);
+
+    new Ball(450, 50, engine, module);
 }
