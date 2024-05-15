@@ -8,6 +8,7 @@ title: Game
 <script type="module">
 
 import { init_level1 } from './game/levels/level1.js'
+import { init_level2 } from './game/levels/level2.js'
 
 // create an engine
 var engine = Matter.Engine.create();
@@ -30,6 +31,41 @@ Matter.Render.run(render);
 function update() {
     for (let j = 0; j < bodies_to_check.length; j++) {
       bodies_to_check[j].update()
+    }
+
+    if (game_state.level_complete == true) {
+        game_state.level_complete = false;
+        current_level += 1;
+
+        // Clear all bodies from the world
+        Matter.World.clear(engine.world, false);
+        // Clear the engine
+        Matter.Engine.clear(engine);
+        // Stop the renderer
+        Matter.Render.stop(render);
+        // Clear the canvas
+        var context = render.context;
+        context.clearRect(0, 0, render.canvas.width, render.canvas.height);
+        // Remove the old canvas
+        render.canvas.parentNode.removeChild(render.canvas);
+        // Create a new renderer
+        render = Matter.Render.create({
+            element: document.body,
+            engine: engine,
+            options: {wireframes: false}
+        });
+
+        if (current_level == 2) {
+            console.log("level 1 passed; level 2 loading");
+            bodies_to_check = init_level2(Matter, engine, game_state)
+        }
+        else {
+            console.log("woot! game over!");
+            // return;
+        }
+
+        // Restart the renderer
+        Matter.Render.run(render);
     }
 
     Matter.Engine.update(engine, 1000 / 60 );

@@ -16,14 +16,16 @@ export class Platform {
 export class Goal extends Platform {
     #detector
     #module
-    constructor(x, y, engine, module, ball) {
+    #game_state
+    constructor(x, y, engine, module, ball, game_state) {
         super(x, y, 200, 100, engine, module);
         this.#detector = module.Detector.create({bodies: [this.bod, ball.bod]});
-        this.#module = module
+        this.#module = module;
+        this.#game_state = game_state;
     }
     update() {
         if (this.#module.Detector.collisions(this.#detector).length !== 0) {
-            console.log("winner")
+            this.#game_state.level_complete = true;
         }
     }
 }
