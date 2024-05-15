@@ -9,6 +9,7 @@ title: Game
 
 import { init_level1 } from './game/levels/level1.js'
 import { init_level2 } from './game/levels/level2.js'
+import { UserPlatform } from './game/objects/platform.js'
 
 // create an engine
 var engine = Matter.Engine.create();
@@ -29,6 +30,49 @@ let bodies_to_check = init_level1(Matter, engine, game_state);
 // run the renderer
 Matter.Render.run(render);
 
+// accept user input
+var startX, startY, endX, endY;
+
+function getCoordinates(event) {
+    if (event.touches) {
+        return {
+            x: event.touches[0].clientX,
+            y: event.touches[0].clientY
+        };
+    } else {
+        return {
+            x: event.clientX,
+            y: event.clientY
+        };
+    }
+}
+
+document.addEventListener('mousedown', function(event) {
+    const coords = getCoordinates(event);
+    startX = coords.x;
+    startY = coords.y;
+});
+
+document.addEventListener('mouseup', function(event) {
+    const coords = getCoordinates(event);
+    endX = coords.x;
+    endY = coords.y;
+    new UserPlatform(startX, startY, endX, endY, engine, Matter);
+});
+
+document.addEventListener('touchstart', function(event) {
+    const coords = getCoordinates(event);
+    startX = coords.x;
+    startY = coords.y;
+});
+
+document.addEventListener('touchend', function(event) {
+    const coords = getCoordinates(event.changedTouches[0]);
+    endX = coords.x;
+    endY = coords.y;
+    new UserPlatform(startX, startY, endX, endY, engine, Matter);
+});
+
 function update() {
     for (let j = 0; j < bodies_to_check.length; j++) {
       bodies_to_check[j].update()
@@ -41,15 +85,11 @@ function update() {
             console.log("woot! game over!"); 
             return;
         }
-        // Clear all bodies from the world
+        // Restart the engine and renderer to an intial state
         Matter.World.clear(engine.world, false);
-        // Clear the engine
         Matter.Engine.clear(engine);
-        // Stop the renderer
         Matter.Render.stop(render);
-        // Remove the old canvas
         render.canvas.parentNode.removeChild(render.canvas);
-        // Create a new renderer
         render = Matter.Render.create({
             element: document.body,
             engine: engine,
