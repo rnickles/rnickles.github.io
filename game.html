@@ -10,13 +10,17 @@ title: Game
 import { init_level1 } from './game/levels/level1.js'
 import { init_level2 } from './game/levels/level2.js'
 import { UserPlatform } from './game/objects/platform.js'
+import { Ball } from './game/objects/ball.js'
 
 // create an engine
 var engine = Matter.Engine.create();
 
 let MAX_LEVEL = 2;
 var current_level = 1;
-var game_state = {level_complete: false};
+var game_state = {  
+    level_complete: false,
+    goal: null,
+};
 
 // create a renderer
 var render = Matter.Render.create({
@@ -25,7 +29,7 @@ var render = Matter.Render.create({
     options: {wireframes: false}
 });
 
-let bodies_to_check = init_level1(Matter, engine, game_state);
+init_level1(Matter, engine, game_state);
 
 // run the renderer
 Matter.Render.run(render);
@@ -73,10 +77,16 @@ document.addEventListener('touchend', function(event) {
     new UserPlatform(startX, startY, endX, endY, engine, Matter);
 });
 
+let lastBallDrop = Date.now();
+
 function update() {
-    for (let j = 0; j < bodies_to_check.length; j++) {
-      bodies_to_check[j].update()
+    if (Date.now() - lastBallDrop >= 3000) {
+        let ball = new Ball(450, 50, engine, Matter);
+        game_state.goal.addDetector(ball);
+        lastBallDrop = Date.now();
     }
+
+    game_state.goal.update();
 
     if (game_state.level_complete == true) {
         game_state.level_complete = false;
@@ -98,7 +108,7 @@ function update() {
 
         if (current_level == 2) {
             console.log("level 1 passed; level 2 loading");
-            bodies_to_check = init_level2(Matter, engine, game_state)
+            init_level2(Matter, engine, game_state)
         }
 
         // Restart the renderer

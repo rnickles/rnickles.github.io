@@ -15,19 +15,25 @@ export class Platform {
 
 export class Goal extends Platform {
     #detector
+    #detectors
     #module
     #game_state
-    constructor(x, y, engine, module, ball, game_state) {
+    constructor(x, y, engine, module, game_state) {
         super(x, y, 200, 10, engine, module);
-        this.#detector = module.Detector.create({bodies: [this.bod, ball.bod]});
+        this.#detectors = [];
         this.#module = module;
         this.#game_state = game_state;
     }
     update() {
-        if (this.#module.Detector.collisions(this.#detector).length !== 0) {
-            this.#game_state.level_complete = true;
+        for (let detector of this.#detectors) {
+            if (this.#module.Detector.collisions(detector).length !== 0) {
+                this.#game_state.level_complete = true;
+            }
         }
     }
+    addDetector(gObject) {
+        this.#detectors.push(this.#module.Detector.create({bodies: [this.bod, gObject.bod]}));
+    } 
 }
 
 export class UserPlatform {
