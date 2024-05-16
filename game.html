@@ -13,21 +13,29 @@ import { UserPlatform } from './game/objects/platform.js'
 import { Ball } from './game/objects/ball.js'
 
 // create an engine
-var engine = Matter.Engine.create();
+let engine = Matter.Engine.create();
 
 let MAX_LEVEL = 2;
-var current_level = 1;
-var game_state = {  
+let current_level = 1;
+let game_state = {  
     level_complete: false,
     goal: null,
+    drop_coords: null
 };
 
-// create a renderer
-var render = Matter.Render.create({
+function buildRenderer() {
+    let render = Matter.Render.create({
     element: document.body,
     engine: engine,
-    options: {wireframes: false}
-});
+    options: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+        wireframes: false
+    }
+    });
+    return render;
+}
+let render = buildRenderer();
 
 init_level1(Matter, engine, game_state);
 
@@ -35,7 +43,7 @@ init_level1(Matter, engine, game_state);
 Matter.Render.run(render);
 
 // accept user input
-var startX, startY, endX, endY;
+let startX, startY, endX, endY;
 
 function getCoordinates(event) {
     if (event.touches) {
@@ -77,11 +85,13 @@ document.addEventListener('touchend', function(event) {
     new UserPlatform(startX, startY, endX, endY, engine, Matter);
 });
 
+let ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);
+game_state.goal.addDetector(ball);
 let lastBallDrop = Date.now();
 
 function update() {
     if (Date.now() - lastBallDrop >= 3000) {
-        let ball = new Ball(450, 50, engine, Matter);
+        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);
         game_state.goal.addDetector(ball);
         lastBallDrop = Date.now();
     }
@@ -100,17 +110,17 @@ function update() {
         Matter.Engine.clear(engine);
         Matter.Render.stop(render);
         render.canvas.parentNode.removeChild(render.canvas);
-        render = Matter.Render.create({
-            element: document.body,
-            engine: engine,
-            options: {wireframes: false}
-        });
+        render = buildRenderer();
 
         if (current_level == 2) {
             console.log("level 1 passed; level 2 loading");
             init_level2(Matter, engine, game_state)
         }
 
+        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);
+        game_state.goal.addDetector(ball);
+        lastBallDrop = Date.now();
+        
         // Restart the renderer
         Matter.Render.run(render);
     }
