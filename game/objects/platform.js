@@ -1,4 +1,5 @@
-// General platform clas; can be at any angle
+// General platform class; can be at any angle
+// specify the endpoints
 export class Platform {
     constructor(startX, startY, endX, endY, engine, module) {
         // Calculate length and angle of the platform
@@ -29,7 +30,12 @@ export class HorizontalPlatform {
     constructor(x, y, width, height, engine, module) {
         // matter stuff
         // create a matter body
-        let bod = module.Bodies.rectangle(x, y, width, height, { isStatic: true });
+        let bod = module.Bodies.rectangle(x, y, width, height, { 
+            isStatic: true,
+            render: {
+                fillStyle: 'blue'
+            } 
+        });
         // add it to the physics world
         module.Composite.add(engine.world, bod);
         this.#bod = bod;
@@ -40,7 +46,6 @@ export class HorizontalPlatform {
 }
 
 export class Goal extends HorizontalPlatform {
-    #detector
     #detectors
     #module
     #game_state
