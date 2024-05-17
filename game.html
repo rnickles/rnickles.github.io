@@ -88,15 +88,20 @@ document.addEventListener('touchend', function(event) {
     new Platform(startX, startY, endX, endY, engine);
 });
 
-let ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
-game_state.goal.addDetector(ball);
-let lastBallDrop = Date.now();
+let ball = null;
+let lastBallDrop = 0;
+
+function dropBall() {
+    ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
+    game_state.goal.addDetector(ball);
+    lastBallDrop = Date.now();
+}
+
+dropBall();
 
 function update() {
     if (Date.now() - lastBallDrop >= 3000) {
-        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
-        game_state.goal.addDetector(ball);
-        lastBallDrop = Date.now();
+        dropBall();
     }
 
     game_state.goal.update();
@@ -128,9 +133,7 @@ function update() {
             init_level5(engine, game_state)
         }
 
-        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
-        game_state.goal.addDetector(ball);
-        lastBallDrop = Date.now();
+        dropBall();
         
         // Restart the renderer
         Matter.Render.run(render);
