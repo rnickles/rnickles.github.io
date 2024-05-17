@@ -3,10 +3,9 @@ layout: default
 title: Game
 ---
 
-<script src="game/matter.min.js"></script>
+<script src="game/matter.js"></script>
 
 <script type="module">
-
 import { init_level1 } from './game/levels/level1.js'
 import { init_level2 } from './game/levels/level2.js'
 import { init_level3 } from './game/levels/level3.js'
@@ -40,7 +39,7 @@ function buildRenderer() {
 }
 let render = buildRenderer();
 
-init_level1(Matter, engine, game_state);
+init_level1(engine, game_state);
 
 // run the renderer
 Matter.Render.run(render);
@@ -73,7 +72,7 @@ document.addEventListener('mouseup', function(event) {
     endX = coords.x;
     endY = coords.y;
     console.log(`${startX}, ${startY}, ${endX}, ${endY}`);
-    new Platform(startX, startY, endX, endY, engine, Matter);
+    new Platform(startX, startY, endX, endY, engine);
 });
 
 document.addEventListener('touchstart', function(event) {
@@ -86,16 +85,16 @@ document.addEventListener('touchend', function(event) {
     const coords = getCoordinates(event.changedTouches[0]);
     endX = coords.x;
     endY = coords.y;
-    new Platform(startX, startY, endX, endY, engine, Matter);
+    new Platform(startX, startY, endX, endY, engine);
 });
 
-let ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);
+let ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
 game_state.goal.addDetector(ball);
 let lastBallDrop = Date.now();
 
 function update() {
     if (Date.now() - lastBallDrop >= 3000) {
-        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);
+        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
         game_state.goal.addDetector(ball);
         lastBallDrop = Date.now();
     }
@@ -117,19 +116,19 @@ function update() {
         render = buildRenderer();
 
         if (current_level == 2) {
-            init_level2(Matter, engine, game_state)
+            init_level2(engine, game_state)
         }
         if (current_level == 3) {
-            init_level3(Matter, engine, game_state)
+            init_level3(engine, game_state)
         }
         if (current_level == 4) {
-            init_level4(Matter, engine, game_state)
+            init_level4(engine, game_state)
         }
         if (current_level == 5) {
-            init_level5(Matter, engine, game_state)
+            init_level5(engine, game_state)
         }
 
-        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);
+        ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine);
         game_state.goal.addDetector(ball);
         lastBallDrop = Date.now();
         

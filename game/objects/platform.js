@@ -1,7 +1,7 @@
 // General platform class; can be at any angle
 // specify the endpoints
 export class Platform {
-    constructor(startX, startY, endX, endY, engine, module) {
+    constructor(startX, startY, endX, endY, engine) {
         // Calculate length and angle of the platform
         const length = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
         const angle = Math.atan2(endY - startY, endX - startX);
@@ -11,13 +11,13 @@ export class Platform {
         const midY = (startY + endY) / 2;
 
         // Create the platform body
-        const platform = module.Bodies.rectangle(midX, midY, length, 10, {
+        const platform = Matter.Bodies.rectangle(midX, midY, length, 10, {
             angle: angle,
             isStatic: true
         });
 
         // Add the platform to the world
-        module.Composite.add(engine.world, platform);
+        Matter.Composite.add(engine.world, platform);
     }
 }
 
@@ -27,17 +27,17 @@ export class Platform {
 // no need for atan or sqrt or caluculating midpoints
 export class HorizontalPlatform {
     #bod
-    constructor(x, y, width, height, engine, module) {
+    constructor(x, y, width, height, engine) {
         // matter stuff
         // create a matter body
-        let bod = module.Bodies.rectangle(x, y, width, height, { 
+        let bod = Matter.Bodies.rectangle(x, y, width, height, { 
             isStatic: true,
             render: {
                 fillStyle: 'blue'
             } 
         });
         // add it to the physics world
-        module.Composite.add(engine.world, bod);
+        Matter.Composite.add(engine.world, bod);
         this.#bod = bod;
     }
     get bod() {
@@ -47,22 +47,20 @@ export class HorizontalPlatform {
 
 export class Goal extends HorizontalPlatform {
     #detectors
-    #module
     #game_state
-    constructor(x, y, engine, module, game_state) {
-        super(x, y, 200, 10, engine, module);
+    constructor(x, y, engine, game_state) {
+        super(x, y, 200, 10, engine);
         this.#detectors = [];
-        this.#module = module;
         this.#game_state = game_state;
     }
     update() {
         for (let detector of this.#detectors) {
-            if (this.#module.Detector.collisions(detector).length !== 0) {
+            if (Matter.Detector.collisions(detector).length !== 0) {
                 this.#game_state.level_complete = true;
             }
         }
     }
     addDetector(gObject) {
-        this.#detectors.push(this.#module.Detector.create({bodies: [this.bod, gObject.bod]}));
+        this.#detectors.push(Matter.Detector.create({bodies: [this.bod, gObject.bod]}));
     } 
 }
