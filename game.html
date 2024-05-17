@@ -9,7 +9,7 @@ title: Game
 
 import { init_level1 } from './game/levels/level1.js'
 import { init_level2 } from './game/levels/level2.js'
-import { UserPlatform } from './game/objects/platform.js'
+import { Platform } from './game/objects/platform.js'
 import { Ball } from './game/objects/ball.js'
 
 // create an engine
@@ -69,7 +69,7 @@ document.addEventListener('mouseup', function(event) {
     const coords = getCoordinates(event);
     endX = coords.x;
     endY = coords.y;
-    new UserPlatform(startX, startY, endX, endY, engine, Matter);
+    new Platform(startX, startY, endX, endY, engine, Matter);
 });
 
 document.addEventListener('touchstart', function(event) {
@@ -82,7 +82,7 @@ document.addEventListener('touchend', function(event) {
     const coords = getCoordinates(event.changedTouches[0]);
     endX = coords.x;
     endY = coords.y;
-    new UserPlatform(startX, startY, endX, endY, engine, Matter);
+    new Platform(startX, startY, endX, endY, engine, Matter);
 });
 
 let ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);

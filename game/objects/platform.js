@@ -1,4 +1,30 @@
+// General platform clas; can be at any angle
 export class Platform {
+    constructor(startX, startY, endX, endY, engine, module) {
+        // Calculate length and angle of the platform
+        const length = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
+        const angle = Math.atan2(endY - startY, endX - startX);
+
+        // Calculate the midpoint of the line
+        const midX = (startX + endX) / 2;
+        const midY = (startY + endY) / 2;
+
+        // Create the platform body
+        const platform = module.Bodies.rectangle(midX, midY, length, 10, {
+            angle: angle,
+            isStatic: true
+        });
+
+        // Add the platform to the world
+        module.Composite.add(engine.world, platform);
+    }
+}
+
+// Strictly flat platforms; technically not needed cause can make horizontal platforms with Platform,
+// but the syntax is easier:
+// easier to specify a single point 
+// no need for atan or sqrt or caluculating midpoints
+export class HorizontalPlatform {
     #bod
     constructor(x, y, width, height, engine, module) {
         // matter stuff
@@ -13,7 +39,7 @@ export class Platform {
     }
 }
 
-export class Goal extends Platform {
+export class Goal extends HorizontalPlatform {
     #detector
     #detectors
     #module
@@ -34,25 +60,4 @@ export class Goal extends Platform {
     addDetector(gObject) {
         this.#detectors.push(this.#module.Detector.create({bodies: [this.bod, gObject.bod]}));
     } 
-}
-
-export class UserPlatform {
-    constructor(startX, startY, endX, endY, engine, module) {
-        // Calculate length and angle of the platform
-        const length = Math.sqrt((endX - startX) ** 2 + (endY - startY) ** 2);
-        const angle = Math.atan2(endY - startY, endX - startX);
-
-        // Calculate the midpoint of the line
-        const midX = (startX + endX) / 2;
-        const midY = (startY + endY) / 2;
-
-        // Create the platform body
-        const platform = module.Bodies.rectangle(midX, midY, length, 10, {
-            angle: angle,
-            isStatic: true
-        });
-
-        // Add the platform to the world
-        module.Composite.add(engine.world, platform);
-    }
 }
