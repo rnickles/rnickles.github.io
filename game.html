@@ -9,13 +9,16 @@ title: Game
 
 import { init_level1 } from './game/levels/level1.js'
 import { init_level2 } from './game/levels/level2.js'
+import { init_level3 } from './game/levels/level3.js'
+import { init_level4 } from './game/levels/level4.js'
+import { init_level5 } from './game/levels/level5.js'
 import { Platform } from './game/objects/platform.js'
 import { Ball } from './game/objects/ball.js'
 
 // create an engine
 let engine = Matter.Engine.create();
 
-let MAX_LEVEL = 2;
+let MAX_LEVEL = 5;
 let current_level = 1;
 let game_state = {  
     level_complete: false,
@@ -69,6 +72,7 @@ document.addEventListener('mouseup', function(event) {
     const coords = getCoordinates(event);
     endX = coords.x;
     endY = coords.y;
+    console.log(`${startX}, ${startY}, ${endX}, ${endY}`);
     new Platform(startX, startY, endX, endY, engine, Matter);
 });
 
@@ -113,8 +117,16 @@ function update() {
         render = buildRenderer();
 
         if (current_level == 2) {
-            console.log("level 1 passed; level 2 loading");
             init_level2(Matter, engine, game_state)
+        }
+        if (current_level == 3) {
+            init_level3(Matter, engine, game_state)
+        }
+        if (current_level == 4) {
+            init_level4(Matter, engine, game_state)
+        }
+        if (current_level == 5) {
+            init_level5(Matter, engine, game_state)
         }
 
         ball = new Ball(game_state.drop_coords[0], game_state.drop_coords[1], engine, Matter);
