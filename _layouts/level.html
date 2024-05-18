@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{{ page.title }}</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .border-text {
+            position: fixed;
+            background-color: rgba(255, 255, 255, 0.7); /* semi-transparent background */
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            z-index: 1000;
+        }
+        #level {
+            top: 0;
+            left: 25%;
+            transform: translateX(-50%);
+        }
+        #par {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #total_platform_used {
+            top: 0;
+            left: 75%;
+            transform: translateX(-50%);
+        }  
+    </style>
+  </head>
+  <body>
+    {% include navigation.html %}
+    <div id="level" class="border-text">Top Border Text</div>
+    <div id="par" class="border-text">Top Border Text</div>
+    <div id="total_platform_used" class="border-text">Top Border Text</div>
+    {{ content }}
+  </body>
+</html>
