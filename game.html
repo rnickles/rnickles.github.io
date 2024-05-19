@@ -105,6 +105,8 @@ document.addEventListener('touchend', function(event) {
     new Platform(startX, startY, endX, endY, engine);
 });
 
+
+
 let ball = null;
 let lastBallDrop = 0;
 
@@ -115,6 +117,40 @@ function dropBall() {
 }
 
 dropBall();
+
+// level reset routine
+function resetLevel() {
+    // Restart the engine and renderer to an intial state
+    Matter.World.clear(engine.world, false);
+    Matter.Engine.clear(engine);
+    Matter.Render.stop(render);
+    render.canvas.parentNode.removeChild(render.canvas);
+    render = buildRenderer();
+
+    if (current_level == 1) {
+        init_level1(engine, game_state)
+    }
+    if (current_level == 2) {
+        init_level2(engine, game_state)
+    }
+    if (current_level == 3) {
+        init_level3(engine, game_state)
+    }
+    if (current_level == 4) {
+        init_level4(engine, game_state)
+    }
+    if (current_level == 5) {
+        init_level5(engine, game_state)
+    }
+    setupInfoDisplay();
+    dropBall();
+    
+    // Restart the renderer
+    Matter.Render.run(render);
+}
+
+// level reset button
+document.getElementById('level-reset').onclick = resetLevel;
 
 function update() {
     if (Date.now() - lastBallDrop >= 3000) {
@@ -130,30 +166,7 @@ function update() {
             console.log("woot! game over!"); 
             return;
         }
-        // Restart the engine and renderer to an intial state
-        Matter.World.clear(engine.world, false);
-        Matter.Engine.clear(engine);
-        Matter.Render.stop(render);
-        render.canvas.parentNode.removeChild(render.canvas);
-        render = buildRenderer();
-
-        if (current_level == 2) {
-            init_level2(engine, game_state)
-        }
-        if (current_level == 3) {
-            init_level3(engine, game_state)
-        }
-        if (current_level == 4) {
-            init_level4(engine, game_state)
-        }
-        if (current_level == 5) {
-            init_level5(engine, game_state)
-        }
-        setupInfoDisplay();
-        dropBall();
-        
-        // Restart the renderer
-        Matter.Render.run(render);
+        resetLevel();
     }
 
     Matter.Engine.update(engine, 1000 / 60 );
