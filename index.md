@@ -39,7 +39,7 @@ Intro to Computer Programs, Data Structures, Intro to Computer Architecture, Dis
 - Developed a compiler with lexing/parsing, semantic analysis, and code generation  
 
 ### Catch (2D Physics Game)  
-*JavaScript, HTML, CSS* | [Play Here](rnickles.github.io/catch/) | [Source Code](github.com/rnickles/catch)  
+*JavaScript, HTML, CSS* | [Play Here](https://rnickles.github.io/catch/) | [Source Code](https://github.com/rnickles/catch)  
 - Object-oriented design with simple deployment  
 
 ### Rigged 3D Model Tutorial  
