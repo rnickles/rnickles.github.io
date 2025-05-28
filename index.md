@@ -45,6 +45,16 @@ Intro to Computer Programs, Data Structures, Intro to Computer Architecture, Dis
 ### Rigged 3D Model Tutorial  
 *Qt*
 - Displayed a rigged, animated 3D model  
+### Audience1st (Production App, Non-profit ticketing/sales platform) 
+*Ruby-on-Rails*
+- Worked with a legacy codebase in order to implement new features
+- Worked on a “recurring payments” feature
+- Helped improve the flow the app based on user input
+- Followed Agile practices
+
+### Toy Database (Class project for CS 186 https://cs186.gitbook.io/project)
+*Java*
+- Created a database that supports B+ tree indices, efficient join algorithms, query optimization, multigranularity locking to support concurrent execution of transactions, and a logging manager to support database recovery 
 
 ---
 
