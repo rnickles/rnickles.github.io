@@ -45,6 +45,7 @@ Intro to Computer Programs, Data Structures, Intro to Computer Architecture, Dis
 ### Rigged 3D Model Tutorial  
 *Qt*
 - Displayed a rigged, animated 3D model  
+
 ### Audience1st (Production App, Non-profit ticketing/sales platform) 
 *Ruby-on-Rails*
 - Worked with a legacy codebase in order to implement new features
