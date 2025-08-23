@@ -31,31 +31,30 @@ Intro to Computer Programs, Data Structures, Intro to Computer Architecture, Dis
 - Streamed real-time 3D position data to control a 3D model  
 - Utilized **DBus** for Python-Qt communication  
 
----
+--- 
 
 ## HIGHLIGHTED PROJECTS  
-### Chocopy Compiler  
-*Java, JFlex, Cup* | Class Project (CS 164)  
-- Developed a compiler with lexing/parsing, semantic analysis, and code generation  
-
-### Catch (2D Physics Game)  
-*JavaScript, HTML, CSS* | [Play Here](https://rnickles.github.io/catch/) | [Source Code](https://github.com/rnickles/catch)  
-- Object-oriented design with simple deployment  
-
-### Rigged 3D Model Tutorial  
-*Qt*
-- Displayed a rigged, animated 3D model  
-
 ### Audience1st (Production App, Non-profit ticketing/sales platform) 
 *Ruby-on-Rails*
 - Worked with a legacy codebase in order to implement new features
 - Worked on a “recurring payments” feature
 - Helped improve the flow the app based on user input
 - Followed Agile practices
-
+### Catch (2D Physics Game)  
+*JavaScript, HTML, CSS* | [Play Here](https://rnickles.github.io/catch/) | [Source Code](https://github.com/rnickles/catch)  
+- Object-oriented design with simple deployment  
+### Rigged 3D Model Tutorial  
+*Qt*
+- Displayed a rigged, animated 3D model  
 ### Toy Database (Class project for CS 186 https://cs186.gitbook.io/project)
 *Java*
 - Created a database that supports B+ tree indices, efficient join algorithms, query optimization, multigranularity locking to support concurrent execution of transactions, and a logging manager to support database recovery 
+### Chocopy Compiler  
+*Java, JFlex, Cup* | Class Project (CS 164)  
+- Developed a compiler with lexing/parsing, semantic analysis, and code generation  
+### Secure File Transfer System
+*Go* | Class Project (CS 164)
+- Developed a system that allowed users to securely share and revoke files using symmetric and asymmetric cryptography and cryptographic hashes
 
 ---
 
