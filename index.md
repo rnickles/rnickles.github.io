@@ -2,7 +2,7 @@
 **Email:** robbynickles@gmail.com   
 **LinkedIn:** [linkedin.com/in/robby-nickles](https://linkedin.com/in/robby-nickles)  
 **GitHub:** [github.com/rnickles](https://github.com/rnickles)  
-
+**Website:** [https://rnickles.github.io/]
 ---
 
 ## EDUCATION  
