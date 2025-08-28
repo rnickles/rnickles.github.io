@@ -46,9 +46,9 @@ Intro to Computer Programs, Data Structures, Intro to Computer Architecture, Dis
 *JavaScript, HTML, CSS* | [Play Here](https://rnickles.github.io/catch/) | [Source Code](https://github.com/rnickles/catch)  
 - Object-oriented design with simple deployment  
 
-### Rigged 3D Model Tutorial  
+### Rigged 3D Model Prototype
 *Qt*
-- Displayed a rigged, animated 3D model  
+- Displayed a rigged, animated 3D model controlled by the user's physical movements
 
 ### Secure File Transfer System
 *Go* | Class Project (CS 164)
