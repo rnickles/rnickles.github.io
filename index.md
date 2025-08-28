@@ -60,6 +60,7 @@ Intro to Computer Programs, Data Structures, Intro to Computer Architecture, Dis
 ### Toy Database (Class project for CS 186 https://cs186.gitbook.io/project)
 *Java*
 - Created a database that supports B+ tree indices, efficient join algorithms, query optimization, multigranularity locking to support concurrent execution of transactions, and a logging manager to support database recovery 
+
 ---
 
 ## TECHNICAL SKILLS  
