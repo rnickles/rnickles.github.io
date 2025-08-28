@@ -38,7 +38,7 @@ Intro to Computer Programs, Data Structures, Intro to Computer Architecture, Dis
 *Ruby-on-Rails*
 - Worked with a legacy codebase in order to implement new features
 - Worked on a “recurring payments” feature
-- Helped improve the flow the app based on user input
+- Helped improve the flow of the app based on user input
 - Followed Agile practices
 
 ### Catch (2D Physics Game)  
